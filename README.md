@@ -14,3 +14,5 @@ sandstorm:latest
 ```
 
 examples config files see directory ```config```
+
+Official documentation: [Server Admin Guide](https://docs.google.com/document/d/1GDLg5p9jjeIya7EgBk0ibzDtDlyQ-U_jpspOzby-JmM)
