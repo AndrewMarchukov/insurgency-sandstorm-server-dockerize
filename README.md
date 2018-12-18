@@ -1,3 +1,5 @@
+![](https://github.com/AndrewMarchukov/insurgency-sandstorm-server-dockerize/blob/master/sandstorm-logo.png)
+![](https://github.com/AndrewMarchukov/insurgency-sandstorm-server-dockerize/blob/master/docker-logo.jpg)
 ## How to build
 cd directory where ```Dockerfile```
 ```
