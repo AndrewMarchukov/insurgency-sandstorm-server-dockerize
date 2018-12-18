@@ -1,4 +1,4 @@
-FROM debian:latest
+FROM ubuntu:latest
 ENV CONFIGINI /home/steam/steamcmd/sandstorm/Insurgency/Saved/Config/LinuxServer
 ENV CONFIGTXT /home/steam/steamcmd/sandstorm/Insurgency/Config/Server
 
