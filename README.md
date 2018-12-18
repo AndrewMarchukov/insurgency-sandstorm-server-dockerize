@@ -1,4 +1,3 @@
-# insurgency: sandstorm server dockerize
 ## How to build
 cd directory where ```Dockerfile```
 ```
