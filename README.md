@@ -15,3 +15,4 @@ sandstorm:latest
 Examples config files see directory ```config```
 
 ### Official documentation: [Server Admin Guide](https://docs.google.com/document/d/1GDLg5p9jjeIya7EgBk0ibzDtDlyQ-U_jpspOzby-JmM)
+#### Source in github: [Insurgency: Sandstorm docker server](https://github.com/AndrewMarchukov/insurgency-sandstorm-server-dockerize)
