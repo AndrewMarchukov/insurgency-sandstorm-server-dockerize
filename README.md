@@ -3,7 +3,6 @@
 ## How to build
 cd directory where ```Dockerfile```
 ```docker build -t sandstorm:latest .```
-or take image ```docker pull andrewmhub/sandstorm```
 ## How to launch
 Running multiple instances (use PORT, QUERYPORT and HOSTNAME) and LAUNCH_SERVER_ENV in modmap.env:
 ```
