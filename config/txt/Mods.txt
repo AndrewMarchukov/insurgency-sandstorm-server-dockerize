@@ -3,18 +3,17 @@
 93636; improved ai
 98145; No Restricted Area
 100175; Advanced Supply Points
-751403; FpLegs
 94277; TORO
 95897; cpmpound city
 100082; highlands
 109375; Mountain Pass
-98204; Noshahr Canals
+98204; NoshahrCanals
 391659; prison
 134579; Macedonia
 138788; Panzerschlacht
 168144; frost
 371483; Sultan Of Drugs
-448415; Mud Village
+448415; MudVillage
 175082; Temple
 575709; Safehouse
 561774; Diplomacy
@@ -25,8 +24,12 @@
 566171; Coastline
 580499; Oasis
 597039; Payout
-773324; Redwood Reborn
+773324; RedwoodReborn
 487148; West
 522691; Factory
 162079; Stork_Castle_x
-760053; Green Zone
+760053; GreenZone
+132183; WelcomeMessage
+101966; Join Leave Message
+751403; FpLegs
+98685; Jump Shoot
