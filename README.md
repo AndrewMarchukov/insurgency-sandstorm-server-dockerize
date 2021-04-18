@@ -5,7 +5,7 @@ cd directory where ```Dockerfile```
 ```docker build -t sandstorm:latest .```
 or take image ```docker pull andrewmhub/sandstorm```
 ## How to launch
-Running multiple instances (use PORT, QUERYPORT and HOSTNAME) if need other(custom) settings file use --volume:
+Running multiple instances (use PORT, QUERYPORT and HOSTNAME) and LAUNCH_SERVER_ENV in modmap.env:
 ```
 docker run -d --restart always --env-file /home/user/coop-modmap/modmap.env \
 --name sandstorm-modmap -p 12345:12345/udp -p 54321:54321/udp \
