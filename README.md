@@ -7,7 +7,11 @@ or take image ```docker pull andrewmhub/sandstorm```
 ## How to launch
 Running multiple instances (use PORT, QUERYPORT and HOSTNAME) if need other(custom) settings file use --volume:
 ```
-docker run -d --restart always --env-file /home/user/coop-modmap/modmap.env --name sandstorm-modmap -p 12345:12345/udp -p 54321:54321/udp -v /home/user/coop-modmap/Mods:/home/steam/steamcmd/sandstorm/Insurgency/Mods:rw -v /home/user/coop-modmap/config/ini:/home/steam/steamcmd/sandstorm/Insurgency/Saved/Config/LinuxServer:ro -v /home/user/coop-modmap/config/txt:/home/steam/steamcmd/sandstorm/Insurgency/Config/Server:ro sandstorm:latest
+docker run -d --restart always --env-file /home/user/coop-modmap/modmap.env \
+--name sandstorm-modmap -p 12345:12345/udp -p 54321:54321/udp \
+-v /home/user/coop-modmap/Mods:/home/steam/steamcmd/sandstorm/Insurgency/Mods:rw \
+-v /home/user/coop-modmap/config/ini:/home/steam/steamcmd/sandstorm/Insurgency/Saved/Config/LinuxServer:ro \
+-v /home/user/coop-modmap/config/txt:/home/steam/steamcmd/sandstorm/Insurgency/Config/Server:ro sandstorm:latest
 ```
 Examples config files see directory ```config```
 
