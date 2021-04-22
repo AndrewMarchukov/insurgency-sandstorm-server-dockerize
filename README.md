@@ -26,12 +26,8 @@ services:
     image: andrewmhub/insurgency-sandstorm:latest
     container_name: insurgency-sandstorm
     restart: unless-stopped
-    environment:
-      HOSTNAME=[ISMC] MOD MAPS ONLY @120hz
-      PORT=12345
-      QUERYPORT=54321
-      LAUNCH_SERVER_ENV=-MapCycle=MapCycle -Mods ModList=Mods.txt -mutators=ISMCarmory_legacy,ImprovedAI,NoRestrictedArea,ScaleBotAmount,AdvancedSupplyPoints,WelcomeMessage,JoinLeaveMessage,FpLegs,JumpShoot -GameStatsToken=my_token -GameStats -GSLTToken=my_token -ModDownloadTravelTo=TORO?Scenario=Scenario_TORO_Checkpoint_Security
-
+    env_file:
+       - .env
     volumes:
       - /home/user/coop-modmap/config/ini:/home/steam/steamcmd/sandstorm/Insurgency/Saved/Config/LinuxServer:ro
       - /home/user/coop-modmap/config/txt:/home/steam/steamcmd/sandstorm/Insurgency/Config/Server:ro
@@ -39,4 +35,12 @@ services:
     ports:
       - "${PORT}:${PORT}"
       - "${QUERYPORT}:${QUERYPORT}"
+```
+### .env example
+
+```.env
+HOSTNAME=[ISMC] MOD MAPS ONLY @120hz
+PORT=12345
+QUERYPORT=54321
+LAUNCH_SERVER_ENV=-MapCycle=MapCycle -Mods ModList=Mods.txt -mutators=ISMCarmory_legacy,ImprovedAI,NoRestrictedArea,ScaleBotAmount,AdvancedSupplyPoints,WelcomeMessage,JoinLeaveMessage,FpLegs,JumpShoot -GameStatsToken=my_token -GameStats -GSLTToken=my_token -ModDownloadTravelTo=TORO?Scenario=Scenario_TORO_Checkpoint_Security
 ```
