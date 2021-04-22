@@ -22,6 +22,7 @@ RUN apt-get update && apt-get install --no-install-recommends --no-install-sugge
         rm -rf /var/lib/{apt,dpkg,cache,log}/ && \
         su "steam" -c "./home/steam/steamcmd/steamcmd.sh +login anonymous +force_install_dir /home/steam/steamcmd/sandstorm/ +app_update 581330 validate +quit"
 
+WORKDIR /home/steam/steamcmd
 USER steam
 
 ENTRYPOINT /home/steam/steamcmd/steamcmd.sh +login anonymous +force_install_dir /home/steam/steamcmd/sandstorm/ +app_update 581330 +quit && \
