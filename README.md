@@ -15,8 +15,6 @@ docker run -d --restart always --env-file /home/user/coop-modmap/modmap.env \
 Examples config files see directory ```config```
 
 ### Official documentation: [Server Admin Guide](https://sandstorm-support.newworldinteractive.com/hc/en-us/articles/360049211072-Server-Admin-Guide)
-#### Source in github: [Insurgency: Sandstorm docker server](https://github.com/AndrewMarchukov/insurgency-sandstorm-server-dockerize)
-
 
 ### docker-compose.yml example
 ```dockerfile
