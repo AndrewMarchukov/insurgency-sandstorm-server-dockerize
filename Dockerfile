@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install --no-install-recommends --no-install-sugge
         apt-get remove --purge -y curl && \
         apt-get clean autoclean && \
         apt-get autoremove -y && \
-        rm -rf /var/lib/{apt,dpkg,cache,log}/ && \
+        rm -rf /var/lib/{apt,dpkg} /var/{cache,log} && \
         su "steam" -c "./home/steam/steamcmd/steamcmd.sh +login anonymous +force_install_dir /home/steam/steamcmd/sandstorm/ +app_update 581330 validate +quit"
 
 WORKDIR /home/steam/steamcmd
