@@ -2,7 +2,7 @@
 ![](https://github.com/AndrewMarchukov/insurgency-sandstorm-server-dockerize/blob/master/docker-logo.jpg)
 ## How to build
 cd directory where ```Dockerfile```
-```docker build -t sandstorm:latest .``` or get it on docker hub ```docker pull andrewmhub/insurgency-sandstorm```
+```docker build -t sandstorm:latest .``` or get it on docker hub ```docker pull docker.pkg.github.com/andrewmarchukov/insurgency-sandstorm-server-dockerize/insurgency-sandstorm:latest```
 ## How to launch
 Running multiple instances (use PORT, QUERYPORT and HOSTNAME) and LAUNCH_SERVER_ENV in modmap.env:
 ```
