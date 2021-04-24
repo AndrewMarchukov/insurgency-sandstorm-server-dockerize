@@ -17,7 +17,7 @@ docker run -d --restart always --env-file /home/user/coop-modmap/modmap.env \
 -v /home/user/coop-modmap/config/ini:/home/steam/steamcmd/sandstorm/Insurgency/Saved/Config/LinuxServer:ro \
 -v /home/user/coop-modmap/config/txt:/home/steam/steamcmd/sandstorm/Insurgency/Config/Server:ro andrewmhub/insurgency-sandstorm:latest
 ```
-Examples config files see directory ```config```
+Examples config files see in directory ```config```
 
 ### docker-compose.yml example
 ```dockerfile
