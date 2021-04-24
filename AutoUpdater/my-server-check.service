@@ -1,0 +1,14 @@
+[Unit]
+Description=check insurgency sandstorm server updates
+Requires=network.target
+
+[Service]
+Type=simple
+ExecStart=/opt/check-manifest.sh
+ExecStop=/bin/kill -s TERM $MAINPID
+KillMode=control-group
+CPUSchedulingPolicy=idle
+Nice=19
+
+[Install]
+WantedBy=multi-user.target
