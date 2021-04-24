@@ -15,7 +15,7 @@ docker run -d --restart always --env-file /home/user/coop-modmap/modmap.env \
 --name sandstorm-modmap -p 12345:12345/udp -p 54321:54321/udp \
 -v /home/user/coop-modmap/Mods:/home/steam/steamcmd/sandstorm/Insurgency/Mods:rw \
 -v /home/user/coop-modmap/config/ini:/home/steam/steamcmd/sandstorm/Insurgency/Saved/Config/LinuxServer:ro \
--v /home/user/coop-modmap/config/txt:/home/steam/steamcmd/sandstorm/Insurgency/Config/Server:ro andrewmhub/insurgency-sandstorm:latest
+-v /home/user/coop-modmap/config/txt:/home/steam/steamcmd/sandstorm/Engine/Saved/Config/LinuxServer:ro andrewmhub/insurgency-sandstorm:latest
 ```
 Examples config files see in directory ```config```
 
@@ -31,7 +31,7 @@ services:
        - .env
     volumes:
       - /home/user/coop-modmap/config/ini:/home/steam/steamcmd/sandstorm/Insurgency/Saved/Config/LinuxServer:ro
-      - /home/user/coop-modmap/config/txt:/home/steam/steamcmd/sandstorm/Insurgency/Config/Server:ro
+      - /home/user/coop-modmap/config/txt:/home/steam/steamcmd/sandstorm/Engine/Saved/Config/LinuxServer:ro
       - /home/user/coop-modmap/Mods:/home/steam/steamcmd/sandstorm/Insurgency/Mods:rw
     ports:
       - "${PORT}:${PORT}"
