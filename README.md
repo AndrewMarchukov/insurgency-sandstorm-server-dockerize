@@ -49,6 +49,7 @@ LAUNCH_SERVER_ENV=-MapCycle=MapCycle -Mods ModList=Mods.txt -mutators=ISMCarmory
 ### Tips and Tricks
 #### Server auto update
 Get restart script example
+
 in the end curl get last manifest server version on steam
 ```
 wget --no-check-certificate -O /opt/restart-ins.sh https://raw.githubusercontent.com/AndrewMarchukov/insurgency-sandstorm-server-dockerize/master/AutoUpdater/restart-ins.sh
