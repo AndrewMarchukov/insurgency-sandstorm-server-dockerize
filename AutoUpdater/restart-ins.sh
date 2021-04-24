@@ -1,8 +1,8 @@
 #!/bin/bash
-REMOTEAPPVER=$(curl -s -X GET 'https://api.steamcmd.net/v1/info/581330' | jq -r -e '.data."581330".depots."581333".manifests.public')
+LOCALAPPVER=$(curl -s -X GET 'https://api.steamcmd.net/v1/info/581330' | jq -r -e '.data."581330".depots."581333".manifests.public')
 EXITSTATUS=$?
 if [ $EXITSTATUS -eq 0 ]; then
-  echo $REMOTEAPPVER > /opt/sandstorm-server.version
+  echo $LOCALAPPVER > /opt/sandstorm-server.version
   docker stop sandstorm-modmap
   docker rm sandstorm-modmap
   docker run -d --restart always --env-file /home/user/coop-modmap/modmap.env \
