@@ -1,7 +1,7 @@
 ![](https://github.com/AndrewMarchukov/insurgency-sandstorm-server-dockerize/blob/master/sandstorm-logo.png)
 ![](https://github.com/AndrewMarchukov/insurgency-sandstorm-server-dockerize/blob/master/docker-logo.jpg)
 
-This repository contains a docker image with a dedicated server for Insurgency Sandstorm that you can fully customise to your need for coop and PVP servers.
+This repository contains a docker image with a dedicated server for Insurgency Sandstorm that you can fully customise to your need for COOP and PVP servers.
 
 This image will be build weekly so you don’t have to update anything inside a container. I tried to build the image as “best-practice” as possible and to document everything for you.
 #### Official documentation: [Server Admin Guide](https://sandstorm-support.newworldinteractive.com/hc/en-us/articles/360049211072-Server-Admin-Guide)
