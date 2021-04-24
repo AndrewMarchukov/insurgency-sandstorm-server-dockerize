@@ -6,4 +6,8 @@ docker run -d --restart always --env-file /home/user/coop-modmap/modmap.env \
 -v /home/user/coop-modmap/Mods:/home/steam/steamcmd/sandstorm/Insurgency/Mods:rw \
 -v /home/user/coop-modmap/config/ini:/home/steam/steamcmd/sandstorm/Insurgency/Saved/Config/LinuxServer:ro \
 -v /home/user/coop-modmap/config/txt:/home/steam/steamcmd/sandstorm/Insurgency/Config/Server:ro andrewmhub/insurgency-sandstorm:latest
-curl -X GET 'https://api.steamcmd.net/v1/info/581330' | jq -r '.data."581330".depots."581333".manifests.public' > /opt/sandstorm-server.version
+REMOTEAPPVER=$(curl -s -X GET 'https://api.steamcmd.net/v1/info/581330' | jq -r -e '.data."581330".depots."581333".manifests.public')
+EXITSTATUS=$?
+if [ $EXITSTATUS -eq 0 ]; then
+echo $REMOTEAPPVER > /opt/sandstorm-server.version
+fi
