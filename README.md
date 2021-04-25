@@ -1,14 +1,16 @@
+## Insurgency: Sandstorm Docker Container
+
 ![](https://github.com/AndrewMarchukov/insurgency-sandstorm-server-dockerize/blob/master/sandstorm-logo.png)
 ![](https://github.com/AndrewMarchukov/insurgency-sandstorm-server-dockerize/blob/master/docker-logo.jpg)
 
 This repository contains a docker image with a dedicated server for Insurgency Sandstorm that you can fully customise to your need for COOP and PVP servers.
 
 This image will be build weekly so you don’t have to update anything inside a container. I tried to build the image as “best-practice” as possible and to document everything for you.
-#### Official documentation: [Server Admin Guide](https://sandstorm-support.newworldinteractive.com/hc/en-us/articles/360049211072-Server-Admin-Guide)
-## How to build
+#### Official documentation: [Sandstorm Server Admin Guide](https://sandstorm-support.newworldinteractive.com/hc/en-us/articles/360049211072-Server-Admin-Guide)
+## How to build Insurgency Sandstorm dedicated server
 cd directory where ```Dockerfile```
 ```docker build -t andrewmhub/insurgency-sandstorm:latest .``` or get it on docker hub ```docker pull andrewmhub/insurgency-sandstorm```
-## How to launch
+## How to launch Insurgency Sandstorm dedicated server
 Running multiple instances (use PORT, QUERYPORT and HOSTNAME) and LAUNCH_SERVER_ENV in modmap.env:
 ```
 docker run -d --restart always --env-file /home/user/coop-modmap/modmap.env \
