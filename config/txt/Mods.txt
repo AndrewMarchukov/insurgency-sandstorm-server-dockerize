@@ -31,5 +31,3 @@
 760053; GreenZone
 132183; WelcomeMessage
 101966; Join Leave Message
-751403; FpLegs
-98685; Jump Shoot

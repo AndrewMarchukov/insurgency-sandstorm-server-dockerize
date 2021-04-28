@@ -1,8 +1,6 @@
 FROM ubuntu:latest
 ENV DEBIAN_FRONTEND noninteractive
-
-
-RUN apt-get update && apt-get install --no-install-recommends --no-install-suggests -y \
+RUN     apt-get update && apt-get install --no-install-recommends --no-install-suggests -y \
         lib32gcc1 \
         curl \
         ca-certificates \
@@ -21,9 +19,7 @@ RUN apt-get update && apt-get install --no-install-recommends --no-install-sugge
         apt-get autoremove -y && \
         rm -rf /var/lib/{apt,dpkg} /var/{cache,log} && \
         su "steam" -c "./home/steam/steamcmd/steamcmd.sh +login anonymous +force_install_dir /home/steam/steamcmd/sandstorm/ +app_update 581330 validate +quit"
-
 WORKDIR /home/steam/steamcmd
 USER steam
-
 ENTRYPOINT /home/steam/steamcmd/steamcmd.sh +login anonymous +force_install_dir /home/steam/steamcmd/sandstorm/ +app_update 581330 +quit && \
-/home/steam/steamcmd/sandstorm/Insurgency/Binaries/Linux/InsurgencyServer-Linux-Shipping -hostname="$HOSTNAME" -Port=$PORT -QueryPort=$QUERYPORT ${LAUNCH_SERVER_ENV}
+           /home/steam/steamcmd/sandstorm/Insurgency/Binaries/Linux/InsurgencyServer-Linux-Shipping -hostname="$HOSTNAME" -Port=$PORT -QueryPort=$QUERYPORT ${LAUNCH_SERVER_ENV}

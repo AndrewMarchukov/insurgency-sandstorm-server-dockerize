@@ -1,5 +1,5 @@
+Scenario_Sheds_Checkpoint_Security
 (Scenario="Scenario_TORO_Checkpoint_Security",Lighting="Day",Mode="Checkpoint")
-(Scenario="Scenario_TORO_Checkpoint_Security",Lighting="Night",Mode="Checkpoint")
 Scenario_CompoundCity_Checkpoint_Security
 Scenario_Highlands_Checkpoint_Security
 Scenario_MountainPass_Checkpoint
@@ -7,12 +7,10 @@ Scenario_Noshahr_Canals_Checkpoint_Security
 Scenario_Prison_Checkpoint_Security
 Scenario_Macedonia_Checkpoint_Security
 (Scenario="Scenario_ps_cp_sec",Mode="Checkpoint",Lighting="Day")
-(Scenario="Scenario_ps_cp_sec",Mode="Checkpoint",Lighting="Night")
 Scenario_Frost_Checkpoint_Security
 Scenario_SultanOfDrugs_Checkpoint_Security
 Scenario_Mud_Village_Checkpoint_Security
 (Scenario="Scenario_Temple_CP_Sec",Mode="Checkpoint",Lighting="Day")
-(Scenario="Scenario_Temple_CP_Sec",Mode="Checkpoint",Lighting="Night")
 (Scenario="Scenario_Safehouse_Checkpoint_Security",Lighting="Day")
 Scenario_Diplomacy_Checkpoint_Security
 Scenario_SaltMine_Checkpoint_Security
@@ -26,7 +24,10 @@ Scenario_Oasis_Checkpoint_Security
 (Scenario="Scenario_Stork_Castle_Checkpoint_Security",Lighting="Day")
 (Scenario="Scenario_Factory_Checkpoint_Security",Lighting="Day")
 (Scenario="Scenario_RedwoodReborn_Checkpoint",Lighting="Day")
-(Scenario="Scenario_RedwoodReborn_Checkpoint",Lighting="Night")
 (Scenario="Scenario_RedwoodReborn_Checkpoint",Lighting="Rain")
 (Scenario="Scenario_RedwoodReborn_Checkpoint",Lighting="Winter")
 Scenario_TheGreenZone_Checkpoint_Security
+Scenario_AbadHills_Checkpoint_Security
+(Scenario="Scenario_der_Riese_CP_Sec",Mode="Checkpoint",Lighting="Day")
+(Scenario="Scenario_PeakReborn_Checkpoint",Lighting="Day")
+(Scenario="Scenario_City_Checkpoint_Security",Lighting="Day")
