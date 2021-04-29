@@ -5,6 +5,7 @@ if [ $EXITSTATUS -eq 0 ]; then
   echo "$LOCALAPPVER" >/opt/sandstorm-server.version
   docker stop sandstorm-modmap
   docker rm sandstorm-modmap
+  docker pull andrewmhub/insurgency-sandstorm
   docker run -d --restart always --env-file /home/user/coop-modmap/modmap.env \
     --name sandstorm-modmap --net=host \
     -v /home/user/coop-modmap/Mods:/home/steam/steamcmd/sandstorm/Insurgency/Mods:rw \

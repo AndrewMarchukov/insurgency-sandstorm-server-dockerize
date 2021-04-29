@@ -15,6 +15,10 @@ while true; do
         EXITSTATUS=$?
         if [ $EXITSTATUS -eq 0 ]; then
             if [ "$LOCALAPPVER" != "$REMOTEAPPVER" ]; then
+                for n in {60..1}; do
+                    rcon -a "$rconip" -p "$rconpass" "say 'THE SERVER WILL BE RESTARTED IN $n'"
+                    sleep 1
+                done
                 /opt/restart-ins.sh
             fi
         fi
