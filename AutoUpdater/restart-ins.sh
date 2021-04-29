@@ -3,6 +3,12 @@ LOCALAPPVER=$(curl -s -X GET 'https://api.steamcmd.net/v1/info/581330' | jq -r -
 EXITSTATUS=$?
 if [ $EXITSTATUS -eq 0 ]; then
   echo "$LOCALAPPVER" >/opt/sandstorm-server.version
+  for n in {60..1}; do
+    for rconip in $(echo "${rconlist//,/ }"); do
+      rcon -a "$rconip" -p "$rconpass" "say 'THE SERVER WILL BE RESTARTED IN $n'"
+      sleep 1
+    done
+  done
   docker stop sandstorm-modmap
   docker rm sandstorm-modmap
   docker pull andrewmhub/insurgency-sandstorm
