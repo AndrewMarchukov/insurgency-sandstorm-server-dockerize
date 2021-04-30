@@ -2,6 +2,7 @@
 rconlist=127.0.0.1:55555,127.0.0.1:44444,127.0.0.1:33333
 rconpass=my_rcon_password
 modio_api_key=my_modio_apikey_!NOT_OAuth2_KEY!
+
 while true; do
     TOTAL=0
     sleep $(((RANDOM % 360) + 60))
@@ -17,7 +18,7 @@ while true; do
         if [ $EXITSTATUS -eq 0 ]; then
             #CHECKING ISMC NEW VERSION
             LOCALMODVER=$(cat /opt/sandstorm-mod.version)
-            REMOTEMODVER=$(curl -X GET "https://api.mod.io/v1/games/254/mods/150867?api_key=$modio_api_key" -H 'Accept: application/json' | jq -r -e .modfile.filehash.md5)
+            REMOTEMODVER=$(curl -s -X GET "https://api.mod.io/v1/games/254/mods/150867?api_key=$modio_api_key" -H 'Accept: application/json' | jq -r -e .modfile.filehash.md5)
             EXITSTATUS=$?
             if [ $EXITSTATUS -eq 0 ]; then
                 if [[ ("$LOCALAPPVER" != "$REMOTEAPPVER" || "$LOCALMODVER" != "$REMOTEMODVER") ]]; then
