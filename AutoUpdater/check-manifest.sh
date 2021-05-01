@@ -24,9 +24,13 @@ while true; do
                 if [[ ("$LOCALAPPVER" != "$REMOTEAPPVER" || "$LOCALMODVER" != "$REMOTEMODVER") ]]; then
                     echo "$REMOTEAPPVER" >/opt/sandstorm-server.version
                     echo "$REMOTEMODVER" >/opt/sandstorm-mod.version
-                    for n in {60..1}; do
+                    for n in {1800..1}; do
                         for rconip in $(echo "${rconlist//,/ }"); do
-                            rcon -a "$rconip" -p "$rconpass" "say 'THE SERVER WILL BE RESTARTED IN $n'"
+                            if ((n / 60 == 0)); then
+                                rcon -a "$rconip" -p "$rconpass" "say 'THE SERVER WILL BE RESTARTED IN $n seconds'"
+                            elif ((n % 60 == 0)); then
+                                rcon -a "$rconip" -p "$rconpass" "say 'THE SERVER WILL BE RESTARTED IN $((n / 60)) minutes'"
+                            fi
                             sleep 1
                         done
                     done
