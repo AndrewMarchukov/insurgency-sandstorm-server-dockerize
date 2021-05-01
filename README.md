@@ -49,8 +49,7 @@ QUERYPORT=54321
 LAUNCH_SERVER_ENV=-MapCycle=MapCycle -Mods ModList=Mods.txt -mutators=ISMCarmory_legacy,ImprovedAI,NoRestrictedArea,ScaleBotAmount,AdvancedSupplyPoints,WelcomeMessage,JoinLeaveMessage,FpLegs,JumpShoot -GameStatsToken=my_token -GameStats -GSLTToken=my_token -ModDownloadTravelTo=TORO?Scenario=Scenario_TORO_Checkpoint_Security
 ```
 
-### Tips and Tricks
-#### Server auto update
+### Server auto update
 SteamCMD to autoupdate game server. This script will keep your game servers automaticly updated updating intervals announce the server is shutting down for updates
 
 Requirements: [rcon-cli](https://github.com/gorcon/rcon-cli/releases)
