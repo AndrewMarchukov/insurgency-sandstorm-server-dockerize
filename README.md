@@ -50,7 +50,7 @@ LAUNCH_SERVER_ENV=-MapCycle=MapCycle -Mods ModList=Mods.txt -mutators=ISMCarmory
 ```
 
 ## Server auto update
-SteamCMD to autoupdate game server. This script will keep your game servers automaticly updated updating intervals announce the server is shutting down for updates
+Autoupdate game server. This script will keep your game servers automaticly updated updating intervals announce the server is shutting down for updates
 
 Requirements: [rcon-cli](https://github.com/gorcon/rcon-cli/releases)
 ```
@@ -61,13 +61,12 @@ cp rcon-0.9.1-amd64_linux/rcon /usr/local/bin/
 
 Get restart script example
 
-in the end of server restart or start curl get last manifest server version on steam
 ```
 wget --no-check-certificate -O /opt/restart-ins.sh https://raw.githubusercontent.com/AndrewMarchukov/insurgency-sandstorm-server-dockerize/master/AutoUpdater/restart-ins.sh
 chmod +x /opt/restart-ins.sh
 ```
 The next script make version comparison
-if game server version changed in steam you insurgency sandstorm server will automatically restarted and get update
+if game server version changed in steam or ISMC mod version you insurgency sandstorm server will automatically restarted and get update
 
 ```
 wget --no-check-certificate -O /opt/check-manifest.sh https://raw.githubusercontent.com/AndrewMarchukov/insurgency-sandstorm-server-dockerize/master/AutoUpdater/check-manifest.sh
