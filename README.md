@@ -1,8 +1,11 @@
 ## Insurgency: Sandstorm Docker Container
 [![Docker Image CI](https://github.com/AndrewMarchukov/insurgency-sandstorm-server-dockerize/actions/workflows/docker-image.yml/badge.svg)](https://github.com/AndrewMarchukov/insurgency-sandstorm-server-dockerize/actions/workflows/docker-image.yml)
 
-![](https://github.com/AndrewMarchukov/insurgency-sandstorm-server-dockerize/blob/master/sandstorm-logo.png)
-![](https://github.com/AndrewMarchukov/insurgency-sandstorm-server-dockerize/blob/master/docker-logo.png)
+<p align="center">
+  <img src="https://github.com/AndrewMarchukov/insurgency-sandstorm-server-dockerize/blob/master/sandstorm-logo.png">
+  <img src="https://github.com/AndrewMarchukov/insurgency-sandstorm-server-dockerize/blob/master/docker-logo.png"
+</p>
+</p>
 
 This repository contains a docker image with a dedicated server for Insurgency Sandstorm that you can fully customise to your need for COOP and PVP servers.
 
