@@ -1,5 +1,7 @@
 ## Insurgency: Sandstorm Docker Container
 [![Docker Image CI](https://github.com/AndrewMarchukov/insurgency-sandstorm-server-dockerize/actions/workflows/docker-image.yml/badge.svg)](https://github.com/AndrewMarchukov/insurgency-sandstorm-server-dockerize/actions/workflows/docker-image.yml)
+![GitHub top language](https://img.shields.io/github/languages/top/AndrewMarchukov/insurgency-sandstorm-server-dockerize)
+![Docker Image Size (tag)](https://img.shields.io/docker/image-size/andrewmhub/insurgency-sandstorm/latest)
 
 <p align="center">
   <img src="https://github.com/AndrewMarchukov/insurgency-sandstorm-server-dockerize/blob/master/sandstorm-logo.png">
