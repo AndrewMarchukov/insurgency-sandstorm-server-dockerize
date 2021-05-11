@@ -19,7 +19,7 @@ This image will be build daily so you don’t have to update anything inside a c
 
 ## How to build/get Insurgency Sandstorm dedicated server
 cd directory where ```Dockerfile```
-```docker build -t andrewmhub/insurgency-sandstorm:latest .``` or get it on [docker hub](https://hub.docker.com/repository/docker/andrewmhub/insurgency-sandstorm) ```docker pull andrewmhub/insurgency-sandstorm```
+```docker build -t andrewmhub/insurgency-sandstorm:latest .``` or get it on [docker hub](https://hub.docker.com/r/andrewmhub/insurgency-sandstorm) ```docker pull andrewmhub/insurgency-sandstorm```
 ## How to launch Insurgency Sandstorm dedicated server
 Running multiple instances (use PORT, QUERYPORT and HOSTNAME) and LAUNCH_SERVER_ENV in [modmap.env](https://github.com/AndrewMarchukov/insurgency-sandstorm-server-dockerize/blob/master/modmap.env): 
 ```
