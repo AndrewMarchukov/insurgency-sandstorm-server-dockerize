@@ -1,6 +1,5 @@
 ## Insurgency: Sandstorm Docker Container
 [![Docker Image CI](https://github.com/AndrewMarchukov/insurgency-sandstorm-server-dockerize/actions/workflows/docker-image.yml/badge.svg)](https://github.com/AndrewMarchukov/insurgency-sandstorm-server-dockerize/actions/workflows/docker-image.yml)
-![GitHub top language](https://img.shields.io/github/languages/top/AndrewMarchukov/insurgency-sandstorm-server-dockerize)
 ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/andrewmhub/insurgency-sandstorm/latest)
 ![Docker Pulls](https://img.shields.io/docker/pulls/andrewmhub/insurgency-sandstorm)
 
@@ -18,11 +17,11 @@ This image will be build daily so you don’t have to update anything inside a c
 #### More config examples: [Configs by zWolfi](https://github.com/zWolfi/INS_Sandstorm)
 #### ISMC Guide: [ISMCmod Installation Guide](https://insurgencysandstorm.mod.io/guides/ismcmod-installation-guide)
 
-## How to build Insurgency Sandstorm dedicated server
+## How to build/get Insurgency Sandstorm dedicated server
 cd directory where ```Dockerfile```
-```docker build -t andrewmhub/insurgency-sandstorm:latest .``` or get it on docker hub ```docker pull andrewmhub/insurgency-sandstorm```
+```docker build -t andrewmhub/insurgency-sandstorm:latest .``` or get it on [docker hub](https://hub.docker.com/repository/docker/andrewmhub/insurgency-sandstorm) ```docker pull andrewmhub/insurgency-sandstorm```
 ## How to launch Insurgency Sandstorm dedicated server
-Running multiple instances (use PORT, QUERYPORT and HOSTNAME) and LAUNCH_SERVER_ENV in modmap.env:
+Running multiple instances (use PORT, QUERYPORT and HOSTNAME) and LAUNCH_SERVER_ENV in [modmap.env](https://github.com/AndrewMarchukov/insurgency-sandstorm-server-dockerize/blob/master/modmap.env): 
 ```
 docker run -d --restart always --env-file /home/user/coop-modmap/modmap.env \
 --name sandstorm-modmap --net=host \
@@ -30,7 +29,7 @@ docker run -d --restart always --env-file /home/user/coop-modmap/modmap.env \
 -v /home/user/coop-modmap/config/ini:/home/steam/steamcmd/sandstorm/Insurgency/Saved/Config/LinuxServer:ro \
 -v /home/user/coop-modmap/config/txt:/home/steam/steamcmd/sandstorm/Insurgency/Config/Server:ro andrewmhub/insurgency-sandstorm:latest
 ```
-Examples config files see in directory ```config```
+Examples config files in directory [config](https://github.com/AndrewMarchukov/insurgency-sandstorm-server-dockerize/tree/master/config)
 
 ### docker-compose.yml example
 ```dockerfile
