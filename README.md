@@ -88,3 +88,21 @@ systemctl daemon-reload
 systemctl enable my-server-check.service
 systemctl start my-server-check.service
 ```
+## Tips and Tricks
+### How to save RAM on UE4 Linux(Docker) dedicated server
+
+if you launch multiple servers on same host you can save some memory, on 2 servers more than 1gb memory saved
+
+```echo 1 > /sys/kernel/mm/ksm/run```
+
+and add launch options ```-useksm -ksmmergeall``` then restart servers
+
+wait some amount of time and check statistics ```grep -H '' /sys/kernel/mm/ksm/*```
+
+```pages_unshared``` means just what it says: the pages could not be shared because they're unique.
+
+```pages_shared``` indicates how many pages are actually in use and being shared.
+
+```pages_sharing``` indicates how many pages the VMs think there are. If you didn't have KSM running, this is how many pages would actually be in use.
+
+So, in your example, 264281 pages have been found to be shareable, and so they were merged into 162221 pages, while 241483 pages were not shareable. KSM saved you about 398 MB of memory.
