@@ -105,4 +105,4 @@ wait some amount of time and check statistics ```grep -H '' /sys/kernel/mm/ksm/*
 
 ```pages_sharing``` indicates how many pages the VMs think there are. If you didn't have KSM running, this is how many pages would actually be in use.
 
-So, in your example, 264281 pages have been found to be shareable, and so they were merged into 162221 pages, while 241483 pages were not shareable. KSM saved you about 398 MB of memory.
+So, in your example, 264281 pages have been found to be shareable, and so they were merged into 162221 pages, while 241483 pages were not shareable. KSM saved you about 1032 MB of memory.
