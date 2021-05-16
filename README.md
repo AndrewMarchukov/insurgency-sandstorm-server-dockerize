@@ -91,7 +91,7 @@ systemctl start my-server-check.service
 ## Tips and Tricks
 ### How to save RAM on UE4 Linux(Docker) dedicated server
 
-if you launch multiple servers on same host you can save some memory, on 2 servers more than 1gb memory saved
+if you launch multiple servers on same host you can save some memory, on 2 servers more than 1gb memory saved. Make sure that parameter set on 1 after host reboot
 
 ```echo 1 > /sys/kernel/mm/ksm/run```
 
