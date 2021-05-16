@@ -99,10 +99,12 @@ and add launch options ```-useksm -ksmmergeall``` then restart servers
 
 wait some amount of time and check statistics ```grep -H '' /sys/kernel/mm/ksm/*```
 
-```pages_unshared``` means just what it says: the pages could not be shared because they're unique.
+```pages_shared``` - how many shared pages are being used
 
-```pages_shared``` indicates how many pages are actually in use and being shared.
+```pages_sharing``` - how many more sites are sharing them i.e. how much saved
 
-```pages_sharing``` indicates how many pages the VMs think there are. If you didn't have KSM running, this is how many pages would actually be in use.
+``pages_unshared``` - how many pages unique but repeatedly checked for merging
 
-So, in your example, 264281 pages have been found to be shareable, and so they were merged into 162221 pages, while 241483 pages were not shareable. KSM saved you about 1032 MB of memory.
+```pages_sharing*4096/1024/1024=how much memory saved```
+
+So, in your example, 264281 pages have been found to be shareable. KSM saved you about 1032 MB of memory.
