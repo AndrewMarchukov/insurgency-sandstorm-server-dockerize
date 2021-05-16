@@ -103,7 +103,7 @@ wait some amount of time and check statistics ```grep -H '' /sys/kernel/mm/ksm/*
 
 ```pages_sharing``` - how many more sites are sharing them i.e. how much saved
 
-``pages_unshared``` - how many pages unique but repeatedly checked for merging
+```pages_unshared``` - how many pages unique but repeatedly checked for merging
 
 ```pages_sharing*4096/1024/1024=how much memory saved```
 
