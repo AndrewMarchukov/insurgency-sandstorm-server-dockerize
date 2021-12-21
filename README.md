@@ -46,8 +46,10 @@ services:
       - /home/user/coop-modmap/config/txt:/home/steam/steamcmd/sandstorm/Insurgency/Config/Server:ro
       - /home/user/coop-modmap/Mods:/home/steam/steamcmd/sandstorm/Insurgency/Mods:rw
     ports:
-      - "${PORT}:${PORT}"
-      - "${QUERYPORT}:${QUERYPORT}"
+      - "${PORT}:${PORT}/tcp"
+      - "${PORT}:${PORT}/udp"
+      - "${QUERYPORT}:${QUERYPORT}/tcp"
+      - "${QUERYPORT}:${QUERYPORT}/udp"
 ```
 ### .env example
 
