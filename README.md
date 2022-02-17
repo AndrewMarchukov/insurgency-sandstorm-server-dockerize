@@ -45,9 +45,9 @@ Examples config files in directory [config](https://github.com/AndrewMarchukov/i
 
 Optional launch options:
 
-```-NoEAC``` have problem with EAC just disable it
+```-NoEAC``` have problem with EAC just disables it
 
-```-nominidumps``` some crash dump handler that uploads crash information to insurgency devs servers this option disable it 
+```-nominidumps``` some crash dump handler that uploads crash information to insurgency devs servers this option disables it 
 
 
 
