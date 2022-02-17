@@ -9,6 +9,18 @@
 </p>
 </p>
 
+<details>
+  <summary>Changelog</summary>
+
+```
+Feb 17, 2022
+some fixes in modmap.env
+mod.io token moved from Engine.ini to GameUserSettings.ini (because NWI)
+fixed steam warning in dockerfile "Please use force_install_dir before logon!"
+changed readme
+```
+</details>
+
 This repository contains a docker image with a dedicated server for Insurgency Sandstorm that you can fully customize to your need for COOP and PVP servers.
 
 This image will be build daily so you don’t have to update anything inside a container. I tried to build the image as “best-practice” as possible and to document everything for you.
@@ -30,6 +42,14 @@ docker run -d --restart always --env-file /home/user/coop-modmap/modmap.env \
 -v /home/user/coop-modmap/config/txt:/home/steam/steamcmd/sandstorm/Insurgency/Config/Server:ro andrewmhub/insurgency-sandstorm:latest
 ```
 Examples config files in directory [config](https://github.com/AndrewMarchukov/insurgency-sandstorm-server-dockerize/tree/master/config)
+
+Optional launch options:
+
+```-NoEAC``` have problem with EAC just disable it
+
+```-nominidumps``` some crash dump handler that uploads crash information to insurgency devs servers this option disable it 
+
+
 
 ### docker-compose.yml example
 ```dockerfile
@@ -57,7 +77,7 @@ services:
 HOSTNAME=[ISMC] MOD MAPS ONLY @120hz
 PORT=12345
 QUERYPORT=54321
-LAUNCH_SERVER_ENV=-MapCycle=MapCycle -Mods ModList=Mods.txt -mutators=ISMCarmory_legacy,ImprovedAI,NoRestrictedArea,ScaleBotAmount,AdvancedSupplyPoints,WelcomeMessage,JoinLeaveMessage,FpLegs,JumpShoot -GameStatsToken=my_token -GameStats -GSLTToken=my_token -ModDownloadTravelTo=TORO?Scenario=Scenario_TORO_Checkpoint_Security
+LAUNCH_SERVER_ENV=-MapCycle=MapCycle -Mods -ModList=Mods.txt -mutators="ISMCarmory_legacy,ImprovedAI,NoRestrictedArea,ScaleBotAmount,AdvancedSupplyPoints,WelcomeMessage,JoinLeaveMessage,FpLegs,JumpShoot" -GameStatsToken=my_token -GameStats -GSLTToken=my_token -ModDownloadTravelTo=TORO?Scenario=Scenario_TORO_Checkpoint_Security
 ```
 
 ## Server auto update
@@ -65,9 +85,9 @@ Autoupdate game server. This script will keep your game servers automaticly upda
 
 Requirements: [rcon-cli](https://github.com/gorcon/rcon-cli/releases)
 ```
-wget https://github.com/gorcon/rcon-cli/releases/download/v0.9.1/rcon-0.9.1-amd64_linux.tar.gz
-tar -xvzf rcon-0.9.1-amd64_linux.tar.gz
-cp rcon-0.9.1-amd64_linux/rcon /usr/local/bin/
+wget https://github.com/gorcon/rcon-cli/releases/download/v0.10.1/rcon-0.10.1-amd64_linux.tar.gz
+tar -xvzf rcon-0.10.1-amd64_linux.tar.gz
+cp rcon-0.10.1-amd64_linux/rcon /usr/local/bin/
 ```
 
 Get restart script example
@@ -93,7 +113,7 @@ systemctl start my-server-check.service
 ## Tips and Tricks
 ### How to save RAM on UE4 Linux(Docker) dedicated server
 
-if you launch multiple servers on same host you can save some memory, on 2 servers more than 1gb memory saved.
+if you launch multiple servers on same host you can save some memory, on 2 game servers more than 1gb memory saved.
 
 Make sure that parameter set on 1 after host reboot
 

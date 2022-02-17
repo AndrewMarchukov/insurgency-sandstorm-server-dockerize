@@ -18,9 +18,9 @@ RUN     apt-get update && apt-get install --no-install-recommends --no-install-s
         apt-get clean autoclean && \
         apt-get autoremove -y && \
         rm -rf /var/lib/{apt,dpkg} /var/{cache,log} && \
-        su "steam" -c "./home/steam/steamcmd/steamcmd.sh +login anonymous +force_install_dir /home/steam/steamcmd/sandstorm/ +app_update 581330 validate +quit && \
+        su "steam" -c "./home/steam/steamcmd/steamcmd.sh +force_install_dir /home/steam/steamcmd/sandstorm/ +login anonymous +app_update 581330 validate +quit && \
         mkdir -p /home/steam/steamcmd/sandstorm/Insurgency/Saved/SaveGames"
 WORKDIR /home/steam/steamcmd
 USER steam
-ENTRYPOINT /home/steam/steamcmd/steamcmd.sh +login anonymous +force_install_dir /home/steam/steamcmd/sandstorm/ +app_update 581330 +quit && \
+ENTRYPOINT /home/steam/steamcmd/steamcmd.sh +force_install_dir /home/steam/steamcmd/sandstorm/ +login anonymous +app_update 581330 +quit && \
            /home/steam/steamcmd/sandstorm/Insurgency/Binaries/Linux/InsurgencyServer-Linux-Shipping -hostname="$HOSTNAME" -Port=$PORT -QueryPort=$QUERYPORT ${LAUNCH_SERVER_ENV}
