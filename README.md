@@ -19,6 +19,7 @@ mod.io token moved from Engine.ini to GameUserSettings.ini (because NWI)
 fixed steam warning in dockerfile "Please use force_install_dir before logon!"
 changed readme
 changed ENTRYPOINT now you can use LAUNCH_SERVER_ENV to set map
+new options on ini files
 ```
 </details>
 
