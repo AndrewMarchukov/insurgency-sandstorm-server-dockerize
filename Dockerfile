@@ -23,4 +23,4 @@ RUN     apt-get update && apt-get install --no-install-recommends --no-install-s
 WORKDIR /home/steam/steamcmd
 USER steam
 ENTRYPOINT /home/steam/steamcmd/steamcmd.sh +force_install_dir /home/steam/steamcmd/sandstorm/ +login anonymous +app_update 581330 +quit && \
-           /home/steam/steamcmd/sandstorm/Insurgency/Binaries/Linux/InsurgencyServer-Linux-Shipping -hostname="$HOSTNAME" -Port=$PORT -QueryPort=$QUERYPORT ${LAUNCH_SERVER_ENV}
+           /home/steam/steamcmd/sandstorm/Insurgency/Binaries/Linux/InsurgencyServer-Linux-Shipping ${LAUNCH_SERVER_ENV} -hostname="$HOSTNAME" -Port=$PORT -QueryPort=$QUERYPORT

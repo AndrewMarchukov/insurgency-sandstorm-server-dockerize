@@ -13,11 +13,12 @@
   <summary>Changelog</summary>
 
 ```
-Feb 17, 2022
+Feb, 2022
 some fixes in modmap.env
 mod.io token moved from Engine.ini to GameUserSettings.ini (because NWI)
 fixed steam warning in dockerfile "Please use force_install_dir before logon!"
 changed readme
+changed ENTRYPOINT now you can use LAUNCH_SERVER_ENV to set map
 ```
 </details>
 
@@ -66,9 +67,7 @@ services:
       - /home/user/coop-modmap/config/txt:/home/steam/steamcmd/sandstorm/Insurgency/Config/Server:ro
       - /home/user/coop-modmap/Mods:/home/steam/steamcmd/sandstorm/Insurgency/Mods:rw
     ports:
-      - "${PORT}:${PORT}/tcp"
       - "${PORT}:${PORT}/udp"
-      - "${QUERYPORT}:${QUERYPORT}/tcp"
       - "${QUERYPORT}:${QUERYPORT}/udp"
 ```
 ### .env example
@@ -77,7 +76,7 @@ services:
 HOSTNAME=[ISMC] MOD MAPS ONLY @120hz
 PORT=12345
 QUERYPORT=54321
-LAUNCH_SERVER_ENV=-MapCycle=MapCycle -Mods -ModList=Mods.txt -mutators="ISMCarmory_legacy,ImprovedAI,NoRestrictedArea,ScaleBotAmount,AdvancedSupplyPoints,WelcomeMessage,JoinLeaveMessage,FpLegs,JumpShoot" -GameStatsToken=my_token -GameStats -GSLTToken=my_token -ModDownloadTravelTo=TORO?Scenario=Scenario_TORO_Checkpoint_Security
+LAUNCH_SERVER_ENV=LAUNCH_SERVER_ENV=Ministry?Scenario=Scenario_Ministry_Checkpoint_Security?Game=CheckpointHardcore?password=MyPa$$word?MaxPlayers=10 -MapCycle=MapCycle -Mods -ModList=Mods.txt -mutators="ISMCarmory_legacy,ImprovedAI,NoRestrictedArea,ScaleBotAmount,AdvancedSupplyPoints,WelcomeMessage,JoinLeaveMessage,FpLegs,JumpShoot" -GameStatsToken=my_token -GameStats -GSLTToken=my_token -ModDownloadTravelTo=TORO?Scenario=Scenario_TORO_Checkpoint_Security
 ```
 
 ## Server auto update
