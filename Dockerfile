@@ -1,7 +1,7 @@
 FROM ubuntu:latest
 ENV DEBIAN_FRONTEND noninteractive
 RUN     apt-get update && apt-get install --no-install-recommends --no-install-suggests -y \
-        lib32gcc1 \
+        lib32gcc-s1 \
         curl \
         ca-certificates \
         locales && \
