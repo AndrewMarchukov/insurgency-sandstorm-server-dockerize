@@ -5,7 +5,6 @@ RUN     apt-get update && apt-get install --no-install-recommends --no-install-s
         curl \
         ca-certificates \
         locales && \
-        apt-get -y upgrade && \
         locale-gen "en_US.UTF-8" && \
         export LC_ALL="en_US.UTF-8" && \
         useradd -m steam && \
