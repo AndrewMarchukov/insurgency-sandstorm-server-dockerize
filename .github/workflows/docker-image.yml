@@ -14,7 +14,6 @@ jobs:
       - name: Check new version
         id: status
         run: |
-          #!/bin/bash
           LOCALAPPVER=$(cat sandstorm.version)
           REMOTEAPPVER=$(curl -s -X GET 'https://api.steamcmd.net/v1/info/581330' | jq -r -e '.data."581330".depots."581333".manifests.public')
           if [[ "$LOCALAPPVER" != "$REMOTEAPPVER" ]]; then
