@@ -1,5 +1,4 @@
 name: Docker Image CI
-description: build insurgency-sandstorm
 on:
   push:
     branches: [ master ]
