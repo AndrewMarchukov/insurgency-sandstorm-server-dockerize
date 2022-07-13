@@ -5,7 +5,7 @@ on:
   pull_request:
     branches: [ master ]
   schedule:
-  - cron: "0 23 * * *"
+  - cron: "0 * * * *"
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -22,8 +22,25 @@ jobs:
           else
           exit 1
           fi
-        shell: /bin/bash -e {0}
+        shell: /bin/bash
+      -
+        name: Login to DockerHub
+        if: steps.status.outcome == 'success'
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        name: Build and push
+        id: build
+        if: steps.status.outcome == 'success'
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: andrewmhub/insurgency-sandstorm:latest
       - name: login to git
+        if: steps.status.outcome == 'success'
         run: |
           git config --global user.name 'Andrew Marchukov'
           git config --global user.email "${EMAIL}"
@@ -38,18 +55,3 @@ jobs:
         run: git fetch origin master
       - name: push code to master
         run: git push origin HEAD:master
-      -
-        name: Login to DockerHub
-        if: steps.status.outcome == 'success'
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      -
-        name: Build and push
-        if: steps.status.outcome == 'success'
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: true
-          tags: andrewmhub/insurgency-sandstorm:latest
