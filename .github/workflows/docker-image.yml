@@ -14,15 +14,15 @@ jobs:
       - name: Check new version
         id: status
         run: |
-          LOCALAPPVER=$(cat sandstorm.version)
-          REMOTEAPPVER=$(curl -s -X GET 'https://api.steamcmd.net/v1/info/581330' | jq -r -e '.data."581330".depots."581333".manifests.public')
+          LOCALAPPVER=($(cat sandstorm.version))
+          REMOTEAPPVER=($(curl -s -X GET 'https://api.steamcmd.net/v1/info/581330' | jq -r -e '.data."581330".depots."581333".manifests.public'))
           if [[ "$LOCALAPPVER" != "$REMOTEAPPVER" ]]; then
           echo "$REMOTEAPPVER" > sandstorm.version
           exit 0
           else
           exit 1
           fi
-        shell: bash
+        shell: /bin/bash -e {0}
       - name: login to git
         run: |
           git config --global user.name 'Andrew Marchukov'
