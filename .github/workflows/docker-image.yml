@@ -22,7 +22,7 @@ jobs:
           else
           exit 1
           fi
-        shell: /bin/bash
+        shell: bash
       -
         name: Login to DockerHub
         if: steps.status.outcome == 'success'
