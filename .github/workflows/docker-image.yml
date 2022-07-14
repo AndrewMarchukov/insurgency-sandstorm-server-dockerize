@@ -17,11 +17,16 @@ jobs:
         run: |
           LOCALAPPVER=($(cat sandstorm.version))
           REMOTEAPPVER=($(curl -s -X GET 'https://api.steamcmd.net/v1/info/581330' | jq -r -e '.data."581330".depots."581333".manifests.public'))
+          if [ -z "$REMOTEAPPVER" -a "$REMOTEAPPVER" = " " ]; then
+              echo "Empty Response"
+              exit 1
+          fi
           if [[ "$LOCALAPPVER" != "$REMOTEAPPVER" ]]; then
-          echo "$REMOTEAPPVER" > sandstorm.version
-          exit 0
+              echo "$REMOTEAPPVER" >sandstorm.version
+              exit 0
           else
-          exit 1
+              echo "Download Failed"
+              exit 1
           fi
         shell: bash
       -
