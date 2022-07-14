@@ -12,6 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Check new version
+        continue-on-error: true
         id: status
         run: |
           LOCALAPPVER=($(cat sandstorm.version))
@@ -46,12 +47,17 @@ jobs:
           git config --global user.email "${EMAIL}"
           git remote set-url origin https://x-access-token:${{ secrets.GIT_TOKEN }}@github.com/AndrewMarchukov/insurgency-sandstorm-server-dockerize.git
       - name: check for changes
+        if: steps.status.outcome == 'success'
         run: git status
       - name: stage changed files
+        if: steps.status.outcome == 'success'
         run: git add sandstorm.version
       - name: commit changed files
+        if: steps.status.outcome == 'success'
         run: git commit -m "Auto updating sandstorm.version"
       - name: fetch from master
+        if: steps.status.outcome == 'success'
         run: git fetch origin master
       - name: push code to master
+        if: steps.status.outcome == 'success'
         run: git push origin HEAD:master
