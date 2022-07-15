@@ -25,7 +25,7 @@ jobs:
               echo "$REMOTEAPPVER" >sandstorm.version
               exit 0
           else
-              echo "Download Failed"
+              echo "Version not changed"
               exit 1
           fi
         shell: bash
