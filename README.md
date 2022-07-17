@@ -25,7 +25,7 @@ new options on ini files
 
 This repository contains a docker image with a dedicated server for Insurgency Sandstorm that you can fully customize to your need for COOP and PVP servers.
 
-This image will be build daily so you don’t have to update anything inside a container. I tried to build the image as “best-practice” as possible and to document everything for you.
+This image will be built any time there are updates to the steam app or upstream docker image, so you don’t have to update anything inside a container. I tried to build the image as “best-practice” as possible and to document everything for you.
 #### Official documentation: [Sandstorm Server Admin Guide](https://sandstorm-support.newworldinteractive.com/hc/en-us/articles/360049211072-Server-Admin-Guide)
 #### Another Server Admin Guide [Server Admin Guide by mod.io](https://insurgencysandstorm.mod.io/guides/server-admin-guide)
 #### More config examples: [Configs by zWolfi](https://github.com/zWolfi/INS_Sandstorm)
