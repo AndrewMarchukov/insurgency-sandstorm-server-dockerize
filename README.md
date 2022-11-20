@@ -20,6 +20,8 @@ fixed steam warning in dockerfile "Please use force_install_dir before logon!"
 changed readme
 changed ENTRYPOINT now you can use LAUNCH_SERVER_ENV to set map
 new options on ini files
+Nov, 2022
+added lite version, because it's become so beefy
 ```
 </details>
 
@@ -37,12 +39,22 @@ cd directory where ```Dockerfile```
 ## How to launch Insurgency Sandstorm dedicated server
 Running multiple instances (use PORT, QUERYPORT and HOSTNAME) and LAUNCH_SERVER_ENV in [modmap.env](https://github.com/AndrewMarchukov/insurgency-sandstorm-server-dockerize/blob/master/modmap.env): 
 ```
-docker run -d --restart always --env-file /home/user/coop-modmap/modmap.env \
+docker run -d --restart unless-stopped --env-file /home/user/coop-modmap/modmap.env \
 --name sandstorm-modmap --net=host \
 -v /home/user/coop-modmap/Mods:/home/steam/steamcmd/sandstorm/Insurgency/Mods:rw \
 -v /home/user/coop-modmap/config/ini:/home/steam/steamcmd/sandstorm/Insurgency/Saved/Config/LinuxServer:ro \
 -v /home/user/coop-modmap/config/txt:/home/steam/steamcmd/sandstorm/Insurgency/Config/Server:ro andrewmhub/insurgency-sandstorm:latest
 ```
+#### Lite version
+
+All game data will be stored on disk
+```
+docker run -d --restart unless-stopped --env-file /home/user/coop-modmap/modmap.env \
+--name sandstorm-modmap --net=host \
+-v /home/user/my_dir:/home/steam/steamcmd/sandstorm:rw \
+ andrewmhub/insurgency-sandstorm:lite
+```
+
 Examples config files in directory [config](https://github.com/AndrewMarchukov/insurgency-sandstorm-server-dockerize/tree/master/config)
 
 Optional launch options:
@@ -50,8 +62,6 @@ Optional launch options:
 ```-NoEAC``` have problem with EAC just disables it
 
 ```-nominidumps``` some crash dump handler that uploads crash information to insurgency devs servers this option disables it 
-
-
 
 ### docker-compose.yml example
 ```dockerfile

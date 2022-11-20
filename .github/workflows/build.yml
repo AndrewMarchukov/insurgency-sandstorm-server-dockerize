@@ -23,3 +23,12 @@ jobs:
           context: .
           push: true
           tags: andrewmhub/insurgency-sandstorm:latest
+      -
+        name: Build and push lite
+        id: build-lite
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: Dockerfile.lite
+          push: true
+          tags: andrewmhub/insurgency-sandstorm:lite
