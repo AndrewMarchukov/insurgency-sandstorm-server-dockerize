@@ -23,7 +23,6 @@ jobs:
           if [ "$REMOTEAPPVER" -eq "$REMOTEAPPVER" ] 2>/dev/null
           then
               echo "REMOTEAPPVER is an integer"
-              exit 0
           else
               echo "ERROR: parameter must be an integer"
               exit 1
