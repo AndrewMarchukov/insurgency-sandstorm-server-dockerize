@@ -15,7 +15,7 @@ jobs:
         id: status
         run: |
           LOCALAPPVER=($(cat sandstorm.version))
-          REMOTEAPPVER=($(curl -s -X GET 'https://api.steamcmd.net/v1/info/581330' | jq -r -e '.data."581330".depots."581333".manifests.public'))
+          REMOTEAPPVER=($(curl -s -X GET 'https://api.steamcmd.net/v1/info/581330' | jq -r -e '.data."581330".depots."581333".manifests.public.gid'))
           if [ -z "$REMOTEAPPVER" -a "$REMOTEAPPVER" = " " ]; then
               echo "Empty Response"
               exit 1
