@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.pull_request.merged == false
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Check new version
         continue-on-error: true
         id: status
