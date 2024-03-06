@@ -1,4 +1,4 @@
-FROM ubuntu:jammy-20240212
+FROM ubuntu:jammy-20240227
 ENV DEBIAN_FRONTEND noninteractive
 RUN     apt-get update && apt-get install --no-install-recommends --no-install-suggests -y \
         lib32gcc-s1 \
