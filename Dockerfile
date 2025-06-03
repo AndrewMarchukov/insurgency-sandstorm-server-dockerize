@@ -1,4 +1,4 @@
-FROM ubuntu:noble-20250404
+FROM ubuntu:noble-20250529
 ENV DEBIAN_FRONTEND noninteractive
 RUN     apt-get update && apt-get install --no-install-recommends --no-install-suggests -y \
         lib32gcc-s1 \
