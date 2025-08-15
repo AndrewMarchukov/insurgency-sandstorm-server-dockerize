@@ -1,4 +1,5 @@
 150867; ISMCmod
+1516914; ISMCResources
 135290; scale bot
 93636; improved ai
 98145; No Restricted Area
