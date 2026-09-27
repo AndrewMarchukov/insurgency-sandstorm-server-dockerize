@@ -1,0 +1,17 @@
+# Edit modmap.env and config/, then: docker compose up -d
+# Mods: see README "Mods (mod.io)".
+services:
+  insurgency-sandstorm:
+    image: andrewmhub/insurgency-sandstorm:latest
+    container_name: insurgency-sandstorm
+    restart: unless-stopped
+    network_mode: host
+    security_opt:
+      - seccomp=./seccomp-modio.json # Docker's default profile + io_uring, needed by the game's mod.io SDK
+    env_file: modmap.env
+    volumes:
+      - ./config/ini:/home/steam/steamcmd/sandstorm/Insurgency/Saved/Config/LinuxServer:ro
+      - ./config/txt:/home/steam/steamcmd/sandstorm/Insurgency/Config/Server:ro
+      - modio:/home/steam/mod.io # mod.io login + downloaded mods, keep it
+volumes:
+  modio:

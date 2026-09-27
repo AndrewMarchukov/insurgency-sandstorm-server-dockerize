@@ -23,6 +23,9 @@ changed ENTRYPOINT now you can use LAUNCH_SERVER_ENV to set map
 new options on ini files
 Nov, 2022
 added lite version, because it's become so beefy
+Sep, 2026
+mod.io login for game update 1.20+ (see "Mods (mod.io)"), new modio helper, docker-compose.yml
+old AccessToken and Insurgency/Mods volume are not used any more
 ```
 </details>
 
@@ -30,19 +33,24 @@ This repository contains a docker image with a dedicated server for Insurgency S
 
 This image will be built any time there are updates to the steam app or upstream docker image, so you don’t have to update anything inside a container. I tried to build the image as “best-practice” as possible and to document everything for you.
 #### Official documentation: [Sandstorm Server Admin Guide](https://sandstorm-support.newworldinteractive.com/hc/en-us/articles/360049211072-Server-Admin-Guide)
-#### Another Server Admin Guide [Server Admin Guide by mod.io](https://insurgencysandstorm.mod.io/guides/server-admin-guide)
+#### Another Server Admin Guide [Server Admin Guide by mod.io](https://mod.io/g/insurgencysandstorm/r/server-admin-guide)
+#### Mods guide: [How to Set Up a Steam Dedicated Server with Mods](https://mod.io/g/insurgencysandstorm/r/how-to-set-up-a-steam-dedicated-server-with-mods)
 #### More config examples: [Configs by zWolfi](https://github.com/zWolfi/INS_Sandstorm)
-#### ISMC Guide: [ISMCmod Installation Guide](https://insurgencysandstorm.mod.io/guides/ismcmod-installation-guide)
+#### ISMC Guide: [ISMCmod Installation Guide](https://mod.io/g/insurgencysandstorm/r/ismcmod-installation-guide)
 
 ## How to build/get Insurgency Sandstorm dedicated server
 cd directory where ```Dockerfile```
 ```docker build -t andrewmhub/insurgency-sandstorm:latest .``` or get it on [docker hub](https://hub.docker.com/r/andrewmhub/insurgency-sandstorm) ```docker pull andrewmhub/insurgency-sandstorm```
 ## How to launch Insurgency Sandstorm dedicated server
-Running multiple instances (use PORT, QUERYPORT and HOSTNAME) and LAUNCH_SERVER_ENV in [modmap.env](https://github.com/AndrewMarchukov/insurgency-sandstorm-server-dockerize/blob/master/modmap.env): 
+Running multiple instances (use PORT, QUERYPORT and HOSTNAME) and LAUNCH_SERVER_ENV in [modmap.env](https://github.com/AndrewMarchukov/insurgency-sandstorm-server-dockerize/blob/master/modmap.env). For mods, get the seccomp profile first (see [Mods (mod.io)](#mods-modio)):
+```
+wget -O /home/user/coop-modmap/seccomp-modio.json https://raw.githubusercontent.com/AndrewMarchukov/insurgency-sandstorm-server-dockerize/master/seccomp-modio.json
+```
 ```
 docker run -d --restart unless-stopped --env-file /home/user/coop-modmap/modmap.env \
 --name sandstorm-modmap --net=host \
--v /home/user/coop-modmap/Mods:/home/steam/steamcmd/sandstorm/Insurgency/Mods:rw \
+--security-opt seccomp=/home/user/coop-modmap/seccomp-modio.json \
+-v sandstorm-modmap-modio:/home/steam/mod.io \
 -v /home/user/coop-modmap/config/ini:/home/steam/steamcmd/sandstorm/Insurgency/Saved/Config/LinuxServer:ro \
 -v /home/user/coop-modmap/config/txt:/home/steam/steamcmd/sandstorm/Insurgency/Config/Server:ro andrewmhub/insurgency-sandstorm:latest
 ```
@@ -52,9 +60,12 @@ All game data will be stored on disk
 ```
 docker run -d --restart unless-stopped --env-file /home/user/coop-modmap/modmap.env \
 --name sandstorm-modmap --net=host \
+--security-opt seccomp=/home/user/coop-modmap/seccomp-modio.json \
 -v /home/user/my_dir:/home/steam/steamcmd/sandstorm:rw \
+-v sandstorm-modmap-modio:/home/steam/mod.io \
  andrewmhub/insurgency-sandstorm:lite
 ```
+Each server needs its own `mod.io` volume (`sandstorm-modmap-modio` above): it keeps the mod.io login and the downloaded mods.
 
 Examples config files in directory [config](https://github.com/AndrewMarchukov/insurgency-sandstorm-server-dockerize/tree/master/config)
 
@@ -64,32 +75,58 @@ Optional launch options:
 
 ```-nominidumps``` some crash dump handler that uploads crash information to insurgency devs servers this option disables it 
 
-### docker-compose.yml example
-```dockerfile
-version: '3.7'
-services:
-  insurgency-sandstorm:
-    image: andrewmhub/insurgency-sandstorm:latest
-    container_name: insurgency-sandstorm
-    restart: unless-stopped
-    env_file:
-       - .env
-    volumes:
-      - /home/user/coop-modmap/config/ini:/home/steam/steamcmd/sandstorm/Insurgency/Saved/Config/LinuxServer:ro
-      - /home/user/coop-modmap/config/txt:/home/steam/steamcmd/sandstorm/Insurgency/Config/Server:ro
-      - /home/user/coop-modmap/Mods:/home/steam/steamcmd/sandstorm/Insurgency/Mods:rw
-    ports:
-      - "${PORT}:${PORT}/udp"
-      - "${QUERYPORT}:${QUERYPORT}/udp"
+### docker compose
+Clone this repo, edit [modmap.env](modmap.env) and the files in [config](config), then:
 ```
-### .env example
+docker compose up -d
+docker compose logs -f
+```
+[docker-compose.yml](docker-compose.yml) mounts `config/` read-only, keeps the mod.io login in a named volume and applies [seccomp-modio.json](seccomp-modio.json).
+### modmap.env example
 
 ```.env
 HOSTNAME=[ISMC] MOD MAPS ONLY @120hz
 PORT=12345
 QUERYPORT=54321
-LAUNCH_SERVER_ENV=LAUNCH_SERVER_ENV=Ministry?Scenario=Scenario_Ministry_Checkpoint_Security?Game=CheckpointHardcore?password=MyPa$$word?MaxPlayers=10 -MapCycle=MapCycle -Mods -ModList=Mods.txt -mutators="ISMCarmory_legacy,ImprovedAI,NoRestrictedArea,ScaleBotAmount,AdvancedSupplyPoints,WelcomeMessage,JoinLeaveMessage,FpLegs,JumpShoot" -GameStatsToken=my_token -GameStats -GSLTToken=my_token -ModDownloadTravelTo=TORO?Scenario=Scenario_TORO_Checkpoint_Security
+MODIO_EMAIL=my-email@example.com
+LAUNCH_SERVER_ENV=Ministry?Scenario=Scenario_Ministry_Checkpoint_Security?Game=CheckpointHardcore?password=MyPa$$word?MaxPlayers=10 -MapCycle=MapCycle -Mods -ModList=Mods.txt -mutators="ISMCarmory_legacy,ImprovedAI,NoRestrictedArea,ScaleBotAmount,AdvancedSupplyPoints,WelcomeMessage,JoinLeaveMessage,FpLegs,JumpShoot" -GameStatsToken=my_token -GameStats -GSLTToken=my_token -ModDownloadTravelTo=TORO?Scenario=Scenario_TORO_Checkpoint_Security
 ```
+
+## Mods (mod.io)
+Since game update 1.20 (Feb 2026) the server logs in to mod.io with a one-time code sent by email. The old `AccessToken` in `GameUserSettings.ini` does nothing now. The container does the login for you:
+
+1. Make a mod.io account for the server on [mod.io](https://mod.io) with an email that is **not** the one you play with (don't sign in with Steam).
+2. Put `MODIO_EMAIL=that-email@example.com` in `modmap.env` and your mod IDs in `Mods.txt`, one per line (text after the ID is ignored). Keep `-ModDownloadTravelTo=<map>?Scenario=<scenario>` in `LAUNCH_SERVER_ENV`: the server starts on a stock map, downloads the mods, then travels there. Without it, mutators on the first map show as `invalid`.
+3. Start the container with `--security-opt seccomp=seccomp-modio.json` (compose already has it). It emails a code and waits:
+   ```
+   mod.io: waiting for the security code emailed to that@email. Send it with:
+   mod.io:   docker exec <container> modio code <CODE>
+   ```
+4. Run that command with the code. The server logs in, subscribes its mod.io account to the mods in `Mods.txt` and starts.
+
+That's all. Restarts and image updates need nothing more as long as `/home/steam/mod.io` is a volume. When the login expires (about once a year) the container asks for a new code the same way.
+
+`Mods.txt` is the list of mods: on every start the server's mod.io account is subscribed to exactly those mods and unsubscribed from the rest. Leave it without IDs if you'd rather pick mods on the mod.io website while logged in as the server account.
+
+| `docker exec <container> ...` | What it does |
+|---|---|
+| `modio code <CODE>` | give the server the code from the email |
+| `-it ... modio login` | asks for the email, sends a code, asks for the code. Use it when `MODIO_EMAIL` is not set or the code expired |
+| `modio status` | which mod.io account the server uses |
+| `modio sync --dry-run` | what the next start would subscribe and unsubscribe |
+| `modio reset` | log out, the next start asks for a new code |
+
+- No `docker exec` on your host (game panels)? Set `MODIO_SECURITY_CODE=<code>` instead and restart.
+- Already have your own `-SecurityCode=...` in `LAUNCH_SERVER_ENV`? Then the container leaves mod.io alone.
+- **Why the seccomp profile:** the game's mod.io SDK reads and writes files with `io_uring`, and Docker 25+ blocks `io_uring` in its default seccomp profile. [seccomp-modio.json](seccomp-modio.json) is Docker's default profile (`moby/profiles/seccomp` v0.2.3, shipped with Docker 29.8.1) plus one rule allowing `io_uring_setup`, `io_uring_enter` and `io_uring_register`. Everything else stays blocked. Avoid `seccomp=unconfined`: it turns the whole filter off.
+- **Several servers:** give each one its own mod.io account and its own `mod.io` volume. Servers sharing an account would keep unsubscribing each other's mods.
+- **Coming from the old setup:** delete `AccessToken=...` from `GameUserSettings.ini`, drop the `Insurgency/Mods` volume, add a `mod.io` volume, set `MODIO_EMAIL`.
+
+Troubleshooting:
+- `Insufficient permission for filesystem operation` in the log: the container runs without `seccomp-modio.json`. Recreate it with the profile.
+- `the code was rejected or expired`: codes are single use. Get a new one with `docker exec -it <container> modio login`.
+- `is not writable`: a host folder mounted at `/home/steam/mod.io` must belong to uid 1001, or use a named volume like the examples.
+- Mods don't download: check `modio status` and `modio sync --dry-run`, make sure the account is not the one you play with, then `modio reset` and restart.
 
 ## Server auto update
 Autoupdate game server. This script will keep your game servers automaticly updated updating intervals announce the server is shutting down for updates

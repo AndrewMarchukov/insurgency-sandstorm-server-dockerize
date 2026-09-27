@@ -1,0 +1,123 @@
+#!/bin/bash
+# mod.io helper for the Sandstorm server, see README "Mods (mod.io)".
+set -eo pipefail
+shopt -s inherit_errexit
+
+API=https://g-254.modapi.io/v1
+# Sandstorm's public game key, published in mod.io's official server guide:
+# https://mod.io/g/insurgencysandstorm/r/how-to-set-up-a-steam-dedicated-server-with-mods
+API_KEY=bbf3af200848aef28418c032a601e7a2
+MODIO_DIR=${MODIO_DIR:-$HOME/mod.io}
+USER_JSON=$MODIO_DIR/254/ModServer/user.json
+CODE_FILE=$MODIO_DIR/security-code
+SERVER_CFG=/home/steam/steamcmd/sandstorm/Insurgency/Config/Server
+
+die() { echo "mod.io: $*" >&2; exit 1; }
+
+# call METHOD PATH [curl args] -> sets $status and $body; status 000 = network error
+call() {
+  local method=$1 path=$2
+  shift 2
+  body=$(curl -sS --max-time 60 -X "$method" -H 'Accept: application/json' \
+    -H 'Content-Type: application/x-www-form-urlencoded' "$@" -w '\n%{http_code}' "$API$path") || { status=000 body='{"error":{"message":"network error or timeout"}}'; return 0; }
+  status=${body##*$'\n'}
+  body=${body%$'\n'*}
+}
+errmsg() { jq -r '[.error.message, (.error.errors // {} | .[])] | map(strings) | join(" ")' <<<"$body" 2>/dev/null || true; }
+token() { jq -r '.OAuth.token // empty' "$USER_JSON" 2>/dev/null || true; }
+auth() { call "$@" -H "Authorization: Bearer $(token)"; }
+
+modlist() {
+  local name=Mods.txt
+  [[ $LAUNCH_SERVER_ENV =~ -ModList=([^[:space:]]+) ]] && name=${BASH_REMATCH[1]//\"/}
+  [[ $name == *.txt ]] || name+=.txt
+  echo "$SERVER_CFG/$name"
+}
+wanted() { sed -nE 's/^[[:space:]]*([0-9]+).*/\1/p' "$1" 2>/dev/null | sort -u; }
+
+subscribed() {
+  local offset=0 total
+  while :; do
+    auth GET "/me/subscribed?game_id=254&_limit=100&_offset=$offset"
+    [ "$status" = 200 ] || die "cannot list subscriptions (HTTP $status) $(errmsg)"
+    jq -r '.data[].id' <<<"$body"
+    total=$(jq -r '.result_total' <<<"$body")
+    offset=$((offset + 100))
+    [ "$offset" -lt "$total" ] || break
+  done | sort -u
+}
+
+cmd_request() {
+  [ -n "$1" ] || die "no email given"
+  call POST "/oauth/emailrequest?api_key=$API_KEY" --data-urlencode "email=$1"
+  [ "$status" = 200 ] || die "code request failed (HTTP $status) $(errmsg)"
+  echo "mod.io: security code sent to $1" >&2
+}
+
+cmd_code() {
+  [[ $1 =~ ^[[:alnum:]]+$ ]] || die "usage: modio code <CODE>"
+  mkdir -p "$MODIO_DIR"
+  echo "$1" >"$CODE_FILE"
+  echo "mod.io: code saved, the server uses it within a few seconds"
+}
+
+cmd_login() {
+  local email=$MODIO_EMAIL input code
+  read -r -p "Email of the server's mod.io account${email:+ [$email]}: " input
+  cmd_request "${input:-$email}"
+  read -r -p "Code from the email: " code
+  cmd_code "$code"
+}
+
+# Exit 0 = usable login. A network error counts as usable so an outage never blocks the server.
+cmd_status() {
+  [ -n "$(token)" ] || { echo "mod.io: not logged in"; return 1; }
+  auth GET /me
+  case $status in
+    200) echo "mod.io: logged in as $(jq -r .username <<<"$body")" ;;
+    401) echo "mod.io: login expired or revoked"; return 1 ;;
+    *) echo "mod.io: cannot check the login (HTTP $status), assuming it still works" ;;
+  esac
+}
+
+# Makes the mod list file the source of truth for the account's subscriptions.
+cmd_sync() {
+  local dry=$1 list want have id added=0 removed=0
+  list=$(modlist)
+  want=$(wanted "$list")
+  [ -n "$want" ] || { echo "mod.io: no mod IDs in $list, subscriptions left as they are"; return 0; }
+  [ -n "$(token)" ] || die "not logged in"
+  have=$(subscribed)
+  for id in $(comm -23 <(echo "$want") <(echo "$have")); do
+    subscription POST "$id" && added=$((added + 1))
+  done
+  for id in $(comm -13 <(echo "$want") <(echo "$have")); do
+    subscription DELETE "$id" && removed=$((removed + 1))
+  done
+  echo "mod.io: $list synced: +$added -$removed${dry:+ (dry run, nothing changed)}"
+}
+subscription() {
+  if [ -n "$dry" ]; then echo "mod.io: would $1 subscription to mod $2"; return 0; fi
+  auth "$1" "/games/254/mods/$2/subscribe"
+  [[ $status == 2?? ]] || { echo "mod.io: warning: $1 subscription to mod $2 failed (HTTP $status) $(errmsg)" >&2; return 1; }
+}
+
+case $1 in
+  login) cmd_login ;;
+  code) cmd_code "$2" ;;
+  request) cmd_request "$2" ;;
+  status) cmd_status ;;
+  sync) [ -z "$2" ] || [ "$2" = --dry-run ] || die "usage: modio sync [--dry-run]"; cmd_sync "$2" ;;
+  reset) rm -rf "$MODIO_DIR/254/ModServer"; echo "mod.io: logged out, the next start asks for a new code" ;;
+  *)
+    cat >&2 <<EOF
+usage: modio <command>
+  login            ask for the email, send a security code, ask for the code
+  code <CODE>      give the server the code from the email
+  status           show the mod.io login
+  sync [--dry-run] subscribe the account to exactly the mods in the mod list file
+  reset            log out, the next start asks for a new code
+EOF
+    exit 1
+    ;;
+esac
