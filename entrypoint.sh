@@ -8,8 +8,13 @@ SERVER=$GAME/Insurgency/Binaries/Linux/InsurgencyServer-Linux-Shipping
 MODIO_DIR=$HOME/mod.io
 USER_JSON=$MODIO_DIR/254/ModServer/user.json
 
-# shellcheck disable=SC2086 # empty APP_UPDATE_EXTRA must vanish
-/home/steam/steamcmd/steamcmd.sh +force_install_dir $GAME/ +login anonymous +app_update 581330 $APP_UPDATE_EXTRA +quit || exit
+# steamcmd sometimes fails with "Missing configuration" and works on the next try
+for try in 1 2 3; do
+  # shellcheck disable=SC2086 # empty APP_UPDATE_EXTRA must vanish
+  /home/steam/steamcmd/steamcmd.sh +force_install_dir $GAME/ +login anonymous +app_update 581330 $APP_UPDATE_EXTRA +quit && break
+  [ $try = 3 ] && exit 1
+  sleep 15
+done
 
 # shellcheck disable=SC2206 # split on purpose, same as the old ENTRYPOINT
 args=($LAUNCH_SERVER_ENV)
