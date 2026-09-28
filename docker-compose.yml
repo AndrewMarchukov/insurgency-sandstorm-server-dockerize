@@ -1,5 +1,6 @@
 # Edit modmap.env and config/, then: docker compose up -d
-# Mods: see README "Mods (mod.io)".
+# Mods: see README "Mods (mod.io)". seccomp-modio.json must be next to this file (it is not in the image):
+#   wget https://raw.githubusercontent.com/AndrewMarchukov/insurgency-sandstorm-server-dockerize/master/seccomp-modio.json
 services:
   insurgency-sandstorm:
     image: andrewmhub/insurgency-sandstorm:latest

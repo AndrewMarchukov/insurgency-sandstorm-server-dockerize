@@ -76,12 +76,17 @@ Optional launch options:
 ```-nominidumps``` some crash dump handler that uploads crash information to insurgency devs servers this option disables it 
 
 ### docker compose
-Clone this repo, edit [modmap.env](modmap.env) and the files in [config](config), then:
+[docker-compose.yml](docker-compose.yml) needs these files in the same folder: `modmap.env`, `config/` and **`seccomp-modio.json`**. The seccomp file is **not** inside the image, Docker reads it from your disk. Clone this repo, or if you only pull the image, download both files:
+```
+wget https://raw.githubusercontent.com/AndrewMarchukov/insurgency-sandstorm-server-dockerize/master/docker-compose.yml
+wget https://raw.githubusercontent.com/AndrewMarchukov/insurgency-sandstorm-server-dockerize/master/seccomp-modio.json
+```
+Edit [modmap.env](modmap.env) and the files in [config](config), then:
 ```
 docker compose up -d
 docker compose logs -f
 ```
-[docker-compose.yml](docker-compose.yml) mounts `config/` read-only, keeps the mod.io login in a named volume and applies [seccomp-modio.json](seccomp-modio.json).
+The compose file mounts `config/` read-only, keeps the mod.io login in a named volume and applies `seccomp-modio.json`.
 ### modmap.env example
 
 ```.env
@@ -97,12 +102,16 @@ Since game update 1.20 (Feb 2026) the server logs in to mod.io with a one-time c
 
 1. Make a mod.io account for the server on [mod.io](https://mod.io) with an email that is **not** the one you play with (don't sign in with Steam).
 2. Put `MODIO_EMAIL=that-email@example.com` in `modmap.env` and your mod IDs in `Mods.txt`, one per line (text after the ID is ignored). Keep `-ModDownloadTravelTo=<map>?Scenario=<scenario>` in `LAUNCH_SERVER_ENV`: the server starts on a stock map, downloads the mods, then travels there. Without it, mutators on the first map show as `invalid`.
-3. Start the container with `--security-opt seccomp=seccomp-modio.json` (compose already has it). It emails a code and waits:
+3. **Download `seccomp-modio.json` to your server.** It is not inside the image, Docker reads it from your disk. Without it mods do not work (why: see below).
+   ```
+   wget https://raw.githubusercontent.com/AndrewMarchukov/insurgency-sandstorm-server-dockerize/master/seccomp-modio.json
+   ```
+4. Start the container with `--security-opt seccomp=/path/to/seccomp-modio.json`. `docker-compose.yml` already has this line and expects the file next to itself. The container emails a code and waits:
    ```
    mod.io: waiting for the security code emailed to that@email. Send it with:
    mod.io:   docker exec <container> modio code <CODE>
    ```
-4. Run that command with the code. The server logs in, subscribes its mod.io account to the mods in `Mods.txt` and starts.
+5. Run that command with the code. The server logs in, subscribes its mod.io account to the mods in `Mods.txt` and starts.
 
 That's all. Restarts and image updates need nothing more as long as `/home/steam/mod.io` is a volume. When the login expires (about once a year) the container asks for a new code the same way.
 
@@ -123,6 +132,7 @@ That's all. Restarts and image updates need nothing more as long as `/home/steam
 - **Coming from the old setup:** delete `AccessToken=...` from `GameUserSettings.ini`, drop the `Insurgency/Mods` volume, add a `mod.io` volume, set `MODIO_EMAIL`.
 
 Troubleshooting:
+- `opening seccomp profile (./seccomp-modio.json) failed: ... no such file or directory`: the file is missing on your disk. Download it (step 3) next to `docker-compose.yml`, or fix the path in `--security-opt`.
 - `Insufficient permission for filesystem operation` in the log: the container runs without `seccomp-modio.json`. Recreate it with the profile.
 - `the code was rejected or expired`: codes are single use. Get a new one with `docker exec -it <container> modio login`.
 - `is not writable`: a host folder mounted at `/home/steam/mod.io` must belong to uid 1001, or use a named volume like the examples.
